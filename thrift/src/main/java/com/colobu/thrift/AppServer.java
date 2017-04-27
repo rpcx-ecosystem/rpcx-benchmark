@@ -32,8 +32,13 @@ public class AppServer
             //TServer server = new TSimpleServer(new TServer.Args(serverTransport).processor(processor));
 
             // Use this for a multithreaded server
-            TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
+            //TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
 
+            //https://github.com/rpcx-ecosystem/rpcx-benchmark/issues/1
+            TThreadedSelectorServer server = new TThreadedSelectorServer(
+                new TThreadedSelectorServer.Args(serverTransport).processor(processor).
+                selectorThreads(2).workerThreads(512))
+                
             System.out.println("Starting the simple server...");
             server.serve();
         } catch (Exception e) {

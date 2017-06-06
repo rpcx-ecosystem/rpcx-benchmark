@@ -1,14 +1,15 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"fmt"
 	"reflect"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
+	"github.com/apex/log"
 	"github.com/montanaflynn/stats"
 	"github.com/smallnest/rpcx"
 	"github.com/smallnest/rpcx/clientselector"
@@ -67,7 +68,7 @@ func main() {
 
 			//warmup
 			for j := 0; j < 5; j++ {
-				client.Call(serviceMethodName, args, &reply)
+				client.Call(context.Background(), serviceMethodName, args, &reply)
 			}
 
 			startWg.Done()

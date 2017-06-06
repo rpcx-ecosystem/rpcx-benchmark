@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"reflect"
@@ -78,7 +79,7 @@ func main() {
 
 			for j := 0; j < m; j++ {
 				t := time.Now().UnixNano()
-				err := client.Call(serviceMethodName, args, &reply)
+				err := client.Call(context.Background(), serviceMethodName, args, &reply)
 				t = time.Now().UnixNano() - t
 
 				d[i] = append(d[i], t)

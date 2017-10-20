@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"reflect"
 	"runtime/pprof"
@@ -11,9 +14,8 @@ import (
 	"time"
 
 	"github.com/montanaflynn/stats"
-	"github.com/smallnest/rpcx"
-	"github.com/smallnest/rpcx/codec"
-	"github.com/smallnest/rpcx/log"
+	"github.com/smallnest/rpcx/client"
+	"github.com/smallnest/rpcx/protocol"
 )
 
 var concurrency = flag.Int("c", 1, "concurrency")
@@ -23,6 +25,10 @@ var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 
 func main() {
 	flag.Parse()
+
+	go func() {
+		log.Println(http.ListenAndServe("localhost:9982", nil))
+	}()
 
 	if *cpuprofile != "" {
 		f, err := os.Create(*cpuprofile)
@@ -36,17 +42,21 @@ func main() {
 	n := *concurrency
 	m := *total / n
 
-	log.Infof("concurrency: %d\nrequests per client: %d\n\n", n, m)
+	log.Printf("concurrency: %d\nrequests per client: %d\n\n", n, m)
 
-	serviceMethodName := "Hello.Say"
+	servicePath := "Hello"
+	serviceMethod := "Say"
+
 	args := prepareArgs()
 
 	b := make([]byte, 1024*1024)
 	i, _ := args.MarshalTo(b)
-	log.Infof("message size: %d bytes\n\n", i)
+	log.Printf("message size: %d bytes\n\n", i)
 
 	var wg sync.WaitGroup
 	wg.Add(n * m)
+
+	log.Printf("sent total %d messages, %d message per client", n*m, m)
 
 	var startWg sync.WaitGroup
 	startWg.Add(n)
@@ -63,9 +73,18 @@ func main() {
 		d = append(d, dt)
 
 		go func(i int) {
-			s := &rpcx.DirectClientSelector{Network: "tcp", Address: *host}
-			client := rpcx.NewClient(s)
-			client.ClientCodecFunc = codec.NewProtobufClientCodec
+			defer func() {
+				if r := recover(); r != nil {
+					log.Print("Recovered in f", r)
+				}
+			}()
+
+			dis := client.NewPeer2PeerDiscovery("tcp@"+*host, "")
+
+			option := client.DefaultOption
+			option.SerializeType = protocol.ProtoBuffer
+			xclient := client.NewXClient(servicePath, serviceMethod, client.Failtry, client.RandomSelect, dis, option)
+			defer xclient.Close()
 
 			var reply BenchmarkMessage
 
@@ -78,8 +97,11 @@ func main() {
 			startWg.Wait()
 
 			for j := 0; j < m; j++ {
+				if j%100 == 0 {
+					log.Printf("client-%d finished %d", i, j)
+				}
 				t := time.Now().UnixNano()
-				err := client.Call(context.Background(), serviceMethodName, args, &reply)
+				err := xclient.Call(context.Background(), args, &reply, nil)
 				t = time.Now().UnixNano() - t
 
 				d[i] = append(d[i], t)
@@ -89,23 +111,21 @@ func main() {
 				}
 
 				if err != nil {
-					log.Info(err.Error())
+					log.Print(err.Error())
 				}
 
 				atomic.AddUint64(&trans, 1)
 				wg.Done()
 			}
-
-			client.Close()
-
 		}(i)
 
 	}
 
 	wg.Wait()
+
 	totalT = time.Now().UnixNano() - totalT
 	totalT = totalT / 1000000
-	log.Infof("took %d ms for %d requests\n", totalT, n*m)
+	log.Printf("took %d ms for %d requests\n", totalT, n*m)
 
 	totalD := make([]int64, 0, n*m)
 	for _, k := range d {
@@ -122,12 +142,12 @@ func main() {
 	min, _ := stats.Min(totalD2)
 	p99, _ := stats.Percentile(totalD2, 99.9)
 
-	log.Infof("sent     requests    : %d\n", n*m)
-	log.Infof("received requests    : %d\n", atomic.LoadUint64(&trans))
-	log.Infof("received requests_OK : %d\n", atomic.LoadUint64(&transOK))
-	log.Infof("throughput  (TPS)    : %d\n", int64(n*m)*1000/totalT)
-	log.Infof("mean: %.f ns, median: %.f ns, max: %.f ns, min: %.f ns, p99.9: %.f ns\n", mean, median, max, min, p99)
-	log.Infof("mean: %d ms, median: %d ms, max: %d ms, min: %d ms, p99: %d ms\n", int64(mean/1000000), int64(median/1000000), int64(max/1000000), int64(min/1000000), int64(p99/1000000))
+	log.Printf("sent     requests    : %d\n", n*m)
+	log.Printf("received requests    : %d\n", atomic.LoadUint64(&trans))
+	log.Printf("received requests_OK : %d\n", atomic.LoadUint64(&transOK))
+	log.Printf("throughput  (TPS)    : %d\n", int64(n*m)*1000/totalT)
+	log.Printf("mean: %.f ns, median: %.f ns, max: %.f ns, min: %.f ns, p99.9: %.f ns\n", mean, median, max, min, p99)
+	log.Printf("mean: %d ms, median: %d ms, max: %d ms, min: %d ms, p99: %d ms\n", int64(mean/1000000), int64(median/1000000), int64(max/1000000), int64(min/1000000), int64(p99/1000000))
 
 }
 

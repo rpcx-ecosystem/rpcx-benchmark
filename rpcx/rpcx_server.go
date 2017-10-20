@@ -1,18 +1,18 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"os"
-	"runtime/pprof"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 
-	"github.com/smallnest/rpcx"
-	"github.com/smallnest/rpcx/codec"
-	"github.com/smallnest/rpcx/log"
+	"github.com/smallnest/rpcx/server"
 )
 
 type Hello int
 
-func (t *Hello) Say(args *BenchmarkMessage, reply *BenchmarkMessage) error {
+func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage, reply *BenchmarkMessage) error {
 	args.Field1 = "OK"
 	args.Field2 = 100
 	*reply = *args
@@ -25,17 +25,11 @@ var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 func main() {
 	flag.Parse()
 
-	if *cpuprofile != "" {
-		f, err := os.Create(*cpuprofile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		pprof.StartCPUProfile(f)
-		defer pprof.StopCPUProfile()
-	}
+	go func() {
+		log.Println(http.ListenAndServe("localhost:9981", nil))
+	}()
 
-	server := rpcx.NewServer()
-	server.ServerCodecFunc = codec.NewProtobufServerCodec
-	server.RegisterName("Hello", new(Hello))
+	server := server.NewServer(nil)
+	server.RegisterName("Hello", new(Hello), "")
 	server.Serve("tcp", *host)
 }

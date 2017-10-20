@@ -97,9 +97,6 @@ func main() {
 			startWg.Wait()
 
 			for j := 0; j < m; j++ {
-				if j%100 == 0 {
-					log.Printf("client-%d finished %d", i, j)
-				}
 				t := time.Now().UnixNano()
 				err := xclient.Call(context.Background(), args, &reply, nil)
 				t = time.Now().UnixNano() - t

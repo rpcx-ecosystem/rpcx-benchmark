@@ -3,17 +3,16 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
 	"reflect"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/apex/log"
 	"github.com/montanaflynn/stats"
-	"github.com/smallnest/rpcx"
-	"github.com/smallnest/rpcx/clientselector"
-	"github.com/smallnest/rpcx/codec"
+	"github.com/smallnest/rpcx/client"
+	"github.com/smallnest/rpcx/protocol"
 )
 
 var concurrency = flag.Int("c", 1, "concurrency")
@@ -26,21 +25,23 @@ func main() {
 	m := *total / n
 
 	servers := strings.Split(*host, ",")
-	var serverPeers []*clientselector.ServerPeer
+	var serverPeers []*client.KVPair
 	for _, server := range servers {
-		serverPeers = append(serverPeers, &clientselector.ServerPeer{Network: "tcp", Address: server})
+		serverPeers = append(serverPeers, &client.KVPair{Key: ""})
 	}
 
-	log.Infof("Servers: %+v\n\n", serverPeers)
+	log.Printf("Servers: %+v\n\n", serverPeers)
 
-	log.Infof("concurrency: %d\nrequests per client: %d\n\n", n, m)
+	log.Printf("concurrency: %d\nrequests per client: %d\n\n", n, m)
 
-	serviceMethodName := "Hello.Say"
+	servicePath := "Hello"
+	serviceMethod := "Say"
+
 	args := prepareArgs()
 
 	b := make([]byte, 1024*1024)
 	i, _ := args.MarshalTo(b)
-	log.Infof("message size: %d bytes\n\n", i)
+	log.Printf("message size: %d bytes\n\n", i)
 
 	var wg sync.WaitGroup
 	wg.Add(n * m)
@@ -60,15 +61,18 @@ func main() {
 		d = append(d, dt)
 
 		go func(i int) {
-			s := clientselector.NewMultiClientSelector(serverPeers, rpcx.RoundRobin, 10*time.Second)
-			client := rpcx.NewClient(s)
-			client.ClientCodecFunc = codec.NewProtobufClientCodec
+			dis := client.NewMultipleServersDiscovery(serverPeers)
+
+			option := client.DefaultOption
+			option.SerializeType = protocol.ProtoBuffer
+			xclient := client.NewXClient(servicePath, serviceMethod, client.Failtry, client.RoundRobin, dis, option)
+			defer xclient.Close()
 
 			var reply BenchmarkMessage
 
 			//warmup
 			for j := 0; j < 5; j++ {
-				client.Call(context.Background(), serviceMethodName, args, &reply)
+				xclient.Call(context.Background(), args, &reply, nil)
 			}
 
 			startWg.Done()
@@ -76,7 +80,7 @@ func main() {
 
 			for j := 0; j < m; j++ {
 				t := time.Now().UnixNano()
-				err := client.Call(serviceMethodName, args, &reply)
+				err := xclient.Call(context.Background(), args, &reply, nil)
 				t = time.Now().UnixNano() - t
 
 				d[i] = append(d[i], t)
@@ -89,8 +93,6 @@ func main() {
 				wg.Done()
 			}
 
-			client.Close()
-
 		}(i)
 
 	}
@@ -98,7 +100,7 @@ func main() {
 	wg.Wait()
 	totalT = time.Now().UnixNano() - totalT
 	totalT = totalT / 1000000
-	log.Infof("took %d ms for %d requests", totalT, n*m)
+	log.Printf("took %d ms for %d requests", totalT, n*m)
 
 	totalD := make([]int64, 0, n*m)
 	for _, k := range d {
@@ -115,12 +117,12 @@ func main() {
 	min, _ := stats.Min(totalD2)
 	p99, _ := stats.Percentile(totalD2, 99.9)
 
-	log.Infof("sent     requests    : %d\n", n*m)
-	log.Infof("received requests    : %d\n", atomic.LoadUint64(&trans))
-	log.Infof("received requests_OK : %d\n", atomic.LoadUint64(&transOK))
-	log.Infof("throughput  (TPS)    : %d\n", int64(n*m)*1000/totalT)
-	log.Infof("mean: %.f ns, median: %.f ns, max: %.f ns, min: %.f ns, p99: %.f ns\n", mean, median, max, min, p99)
-	log.Infof("mean: %d ms, median: %d ms, max: %d ms, min: %d ms, p99: %d ms\n", int64(mean/1000000), int64(median/1000000), int64(max/1000000), int64(min/1000000), int64(p99/1000000))
+	log.Printf("sent     requests    : %d\n", n*m)
+	log.Printf("received requests    : %d\n", atomic.LoadUint64(&trans))
+	log.Printf("received requests_OK : %d\n", atomic.LoadUint64(&transOK))
+	log.Printf("throughput  (TPS)    : %d\n", int64(n*m)*1000/totalT)
+	log.Printf("mean: %.f ns, median: %.f ns, max: %.f ns, min: %.f ns, p99: %.f ns\n", mean, median, max, min, p99)
+	log.Printf("mean: %d ms, median: %d ms, max: %d ms, min: %d ms, p99: %d ms\n", int64(mean/1000000), int64(median/1000000), int64(max/1000000), int64(min/1000000), int64(p99/1000000))
 
 }
 

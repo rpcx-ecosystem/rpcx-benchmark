@@ -6,9 +6,7 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof"
-	"os"
 	"reflect"
-	"runtime/pprof"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -21,23 +19,15 @@ import (
 var concurrency = flag.Int("c", 1, "concurrency")
 var total = flag.Int("n", 1, "total requests for all clients")
 var host = flag.String("s", "127.0.0.1:8972", "server ip and port")
+var debugAddr = flag.String("d", "127.0.0.1:9982", "server ip and port")
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 
 func main() {
 	flag.Parse()
 
 	go func() {
-		log.Println(http.ListenAndServe("localhost:9982", nil))
+		log.Println(http.ListenAndServe(*debugAddr, nil))
 	}()
-
-	if *cpuprofile != "" {
-		f, err := os.Create(*cpuprofile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		pprof.StartCPUProfile(f)
-		defer pprof.StopCPUProfile()
-	}
 
 	n := *concurrency
 	m := *total / n

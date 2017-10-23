@@ -73,7 +73,7 @@ func main() {
 
 			option := client.DefaultOption
 			option.SerializeType = protocol.ProtoBuffer
-			xclient := client.NewXClient(servicePath, serviceMethod, client.Failtry, client.RandomSelect, dis, option)
+			xclient := client.NewXClient(servicePath, serviceMethod, client.Failtry, client.RoundRobin, dis, option)
 			defer xclient.Close()
 
 			var reply BenchmarkMessage

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"fmt"
 	"reflect"
 	"strings"
 	"sync"
@@ -10,15 +10,17 @@ import (
 	"time"
 
 	"github.com/montanaflynn/stats"
-	"github.com/smallnest/rpcx"
-	"github.com/smallnest/rpcx/clientselector"
-	"github.com/smallnest/rpcx/codec"
-	"github.com/smallnest/rpcx/plugin"
+	"github.com/smallnest/rpcx/client"
+	"github.com/smallnest/rpcx/log"
+	"github.com/smallnest/rpcx/protocol"
 )
 
 var concurrency = flag.Int("c", 1, "concurrency")
 var total = flag.Int("n", 1, "total requests for all clients")
 var host = flag.String("s", "127.0.0.1:8972", "server ip and port")
+
+const cryptKey = "rpcx-key"
+const cryptSalt = "rpcx-salt"
 
 func main() {
 	flag.Parse()
@@ -26,16 +28,18 @@ func main() {
 	m := *total / n
 
 	servers := strings.Split(*host, ",")
-	var serverPeers []*clientselector.ServerPeer
+	var serverPeers []*client.KVPair
 	for _, server := range servers {
-		serverPeers = append(serverPeers, &clientselector.ServerPeer{Network: "kcp", Address: server})
+		serverPeers = append(serverPeers, &client.KVPair{Key: server})
 	}
 
 	log.Infof("Servers: %+v\n\n", serverPeers)
 
 	log.Infof("concurrency: %d\nrequests per client: %d\n\n", n, m)
 
-	serviceMethodName := "Hello.Say"
+	servicePath := "Hello"
+	serviceMethod := "Say"
+
 	args := prepareArgs()
 
 	b := make([]byte, 1024*1024)
@@ -60,18 +64,18 @@ func main() {
 		d = append(d, dt)
 
 		go func(i int) {
-			s := clientselector.NewMultiClientSelector(serverPeers, rpcx.RoundRobin, 10*time.Second)
-			client := rpcx.NewClient(s)
-			client.ClientCodecFunc = codec.NewProtobufClientCodec
+			dis := client.NewPeer2PeerDiscovery("kcp@"+*host, "")
 
-			p := plugin.NewCompressionPlugin(rpcx.CompressSnappy)
-			client.PluginContainer.Add(p)
+			option := client.DefaultOption
+			option.SerializeType = protocol.ProtoBuffer
+			xclient := client.NewXClient(servicePath, serviceMethod, client.Failtry, client.RoundRobin, dis, option)
+			defer xclient.Close()
 
 			var reply BenchmarkMessage
 
 			//warmup
 			for j := 0; j < 5; j++ {
-				client.Call(serviceMethodName, args, &reply)
+				xclient.Call(context.Background(), args, &reply)
 			}
 
 			startWg.Done()
@@ -79,7 +83,7 @@ func main() {
 
 			for j := 0; j < m; j++ {
 				t := time.Now().UnixNano()
-				err := client.Call(serviceMethodName, args, &reply)
+				err := xclient.Call(context.Background(), args, &reply)
 				t = time.Now().UnixNano() - t
 
 				d[i] = append(d[i], t)
@@ -91,8 +95,6 @@ func main() {
 				atomic.AddUint64(&trans, 1)
 				wg.Done()
 			}
-
-			client.Close()
 
 		}(i)
 

@@ -88,7 +88,7 @@ func main() {
 
 			for j := 0; j < m; j++ {
 				t := time.Now().UnixNano()
-				err := xclient.Call(context.Background(), args, &reply, nil)
+				err := xclient.Call(context.Background(), args, &reply)
 				t = time.Now().UnixNano() - t
 
 				d[i] = append(d[i], t)

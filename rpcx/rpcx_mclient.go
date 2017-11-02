@@ -65,14 +65,14 @@ func main() {
 
 			option := client.DefaultOption
 			option.SerializeType = protocol.ProtoBuffer
-			xclient := client.NewXClient(servicePath, serviceMethod, client.Failtry, client.RoundRobin, dis, option)
+			xclient := client.NewXClient(servicePath, client.Failtry, client.RoundRobin, dis, option)
 			defer xclient.Close()
 
 			var reply BenchmarkMessage
 
 			//warmup
 			for j := 0; j < 5; j++ {
-				xclient.Call(context.Background(), args, &reply)
+				xclient.Call(context.Background(), serviceMethod, args, &reply)
 			}
 
 			startWg.Done()
@@ -80,7 +80,7 @@ func main() {
 
 			for j := 0; j < m; j++ {
 				t := time.Now().UnixNano()
-				err := xclient.Call(context.Background(), args, &reply)
+				err := xclient.Call(context.Background(), serviceMethod, args, &reply)
 				t = time.Now().UnixNano() - t
 
 				d[i] = append(d[i], t)

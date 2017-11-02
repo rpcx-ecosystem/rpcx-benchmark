@@ -19,7 +19,7 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage, reply *Benchmar
 	return nil
 }
 
-var host = flag.String("s", "127.0.0.1:8972", "listened ip and port")
+var host = flag.String("s", "localhost:8972", "listened ip and port")
 
 const cryptKey = "rpcx-key"
 const cryptSalt = "rpcx-salt"

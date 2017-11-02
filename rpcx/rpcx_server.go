@@ -32,7 +32,7 @@ func main() {
 		log.Println(http.ListenAndServe(*debugAddr, nil))
 	}()
 
-	server := server.NewServer(nil)
+	server := server.NewServer()
 	server.RegisterName("Hello", new(Hello), "")
 	server.Serve("tcp", *host)
 }

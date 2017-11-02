@@ -21,7 +21,7 @@ import (
 
 var concurrency = flag.Int("c", 1, "concurrency")
 var total = flag.Int("n", 1, "total requests for all clients")
-var host = flag.String("s", "127.0.0.1:8972", "server ip and port")
+var host = flag.String("s", "localhost:8972", "server ip and port")
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 
 const cryptKey = "rpcx-key"

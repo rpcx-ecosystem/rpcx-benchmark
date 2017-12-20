@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"log"
 	"net/http"
@@ -31,8 +32,13 @@ func main() {
 		log.Println(http.ListenAndServe(*debugAddr, nil))
 	}()
 
-	n := *concurrency
-	m := *total / n
+	conc, tn, err := checkArgs(*concurrency, *total)
+	if err != nil {
+		log.Printf("err: %v", err)
+		return
+	}
+	n := conc
+	m := tn / n
 
 	log.Printf("concurrency: %d\nrequests per client: %d\n\n", n, m)
 
@@ -113,8 +119,7 @@ func main() {
 	wg.Wait()
 
 	totalT = time.Now().UnixNano() - totalT
-	totalT = totalT / 1000000
-	log.Printf("took %d ms for %d requests\n", totalT, n*m)
+	log.Printf("took %f ms for %d requests\n", float64(totalT)/1000000, n*m)
 
 	totalD := make([]int64, 0, n*m)
 	for _, k := range d {
@@ -134,10 +139,25 @@ func main() {
 	log.Printf("sent     requests    : %d\n", n*m)
 	log.Printf("received requests    : %d\n", atomic.LoadUint64(&trans))
 	log.Printf("received requests_OK : %d\n", atomic.LoadUint64(&transOK))
-	log.Printf("throughput  (TPS)    : %d\n", int64(n*m)*1000/totalT)
+	log.Printf("throughput  (TPS)    : %d\n", int64(n*m)*1000000000/totalT)
 	log.Printf("mean: %.f ns, median: %.f ns, max: %.f ns, min: %.f ns, p99.9: %.f ns\n", mean, median, max, min, p99)
 	log.Printf("mean: %d ms, median: %d ms, max: %d ms, min: %d ms, p99: %d ms\n", int64(mean/1000000), int64(median/1000000), int64(max/1000000), int64(min/1000000), int64(p99/1000000))
+}
 
+// checkArgs check concurrency and total request count.
+func checkArgs(c, n int) (int, int, error) {
+	if c < 1 {
+		log.Printf("c < 1 and reset c = 1")
+		c = 1
+	}
+	if n < 1 {
+		log.Printf("n < 1 and reset n = 1")
+		n = 1
+	}
+	if c > n {
+		return c, n, errors.New("c must be set <= n")
+	}
+	return c, n, nil
 }
 
 func prepareArgs() *BenchmarkMessage {

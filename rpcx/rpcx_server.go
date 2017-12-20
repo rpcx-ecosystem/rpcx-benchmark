@@ -7,6 +7,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
+	rlog "github.com/smallnest/rpcx/log"
 	"github.com/smallnest/rpcx/server"
 )
 
@@ -27,6 +28,8 @@ var (
 
 func main() {
 	flag.Parse()
+
+	rlog.SetDummyLogger()
 
 	go func() {
 		log.Println(http.ListenAndServe(*debugAddr, nil))

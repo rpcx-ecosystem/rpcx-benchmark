@@ -13,6 +13,7 @@ import (
 
 	"github.com/montanaflynn/stats"
 	"github.com/smallnest/rpcx/client"
+	rlog "github.com/smallnest/rpcx/log"
 	"github.com/smallnest/rpcx/protocol"
 )
 
@@ -24,6 +25,7 @@ var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 
 func main() {
 	flag.Parse()
+	rlog.SetDummyLogger()
 
 	go func() {
 		log.Println(http.ListenAndServe(*debugAddr, nil))

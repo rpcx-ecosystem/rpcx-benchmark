@@ -29,6 +29,8 @@ var (
 func main() {
 	flag.Parse()
 
+	server.UsePool = true
+
 	rlog.SetDummyLogger()
 
 	go func() {

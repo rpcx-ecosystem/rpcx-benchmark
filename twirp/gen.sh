@@ -1,0 +1,1 @@
+protoc -I . grpc_benchmark.proto --twirp_out=. --go_out=. 

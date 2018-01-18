@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"time"
 
 	rlog "github.com/smallnest/rpcx/log"
 	"github.com/smallnest/rpcx/server"
@@ -17,12 +18,16 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage, reply *Benchmar
 	args.Field1 = "OK"
 	args.Field2 = 100
 	*reply = *args
+	if *delay > 0 {
+		time.Sleep(*delay)
+	}
 	return nil
 }
 
 var (
 	host       = flag.String("s", "127.0.0.1:8972", "listened ip and port")
 	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+	delay      = flag.Duration("delay", 0, "delay to mock business processing")
 	debugAddr  = flag.String("d", "127.0.0.1:9981", "server ip and port")
 )
 

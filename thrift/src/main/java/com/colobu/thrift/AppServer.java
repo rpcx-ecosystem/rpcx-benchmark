@@ -13,8 +13,12 @@ public class AppServer
 
     public static void main( String[] args )
     {
+        long delay = 0L;
+        if (args.length >0) {
+            delay = Long.parseLong(args[0]);
+        }
         try {
-            handler = new GreeterHandler();
+            handler = new GreeterHandler(delay);
             processor = new Greeter.Processor(handler);
 
             simple(processor);

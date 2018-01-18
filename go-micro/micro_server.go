@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	fmt "fmt"
+	"time"
 
 	micro "github.com/micro/go-micro"
 	"golang.org/x/net/context"
@@ -15,10 +17,15 @@ func (t *HelloS) Say(ctx context.Context, args *BenchmarkMessage, reply *Benchma
 	args.Field1 = &s
 	args.Field2 = &i
 	*reply = *args
+	if *delay > 0 {
+		time.Sleep(*delay)
+	}
 	return nil
 }
 
 //var host = flag.String("s", "127.0.0.1:8972", "listened ip and port")
+
+var delay = flag.Duration("delay", 0, "delay to mock business processing")
 
 func main() {
 	//flag.Parse()

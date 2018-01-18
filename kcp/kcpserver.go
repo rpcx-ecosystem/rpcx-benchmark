@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/sha1"
 	"flag"
+	"time"
 
 	"github.com/smallnest/rpcx/server"
 	kcp "github.com/xtaci/kcp-go"
@@ -16,10 +17,16 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage, reply *Benchmar
 	args.Field1 = "OK"
 	args.Field2 = 100
 	*reply = *args
+	if *delay > 0 {
+		time.Sleep(*delay)
+	}
 	return nil
 }
 
-var host = flag.String("s", "localhost:8972", "listened ip and port")
+var (
+	host  = flag.String("s", "localhost:8972", "listened ip and port")
+	delay = flag.Duration("delay", 0, "delay to mock business processing")
+)
 
 const cryptKey = "rpcx-key"
 const cryptSalt = "rpcx-salt"

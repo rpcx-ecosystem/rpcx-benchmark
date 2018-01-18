@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"net"
+	"time"
 
 	"github.com/smallnest/rpcx/log"
 	"golang.org/x/net/context"
@@ -16,10 +17,16 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage) (reply *Benchma
 	var i int32 = 100
 	args.Field1 = s
 	args.Field2 = i
+	if *delay > 0 {
+		time.Sleep(*delay)
+	}
 	return args, nil
 }
 
-var host = flag.String("s", "127.0.0.1:8972", "listened ip and port")
+var (
+	host  = flag.String("s", "127.0.0.1:8972", "listened ip and port")
+	delay = flag.Duration("delay", 0, "delay to mock business processing")
+)
 
 func main() {
 	flag.Parse()

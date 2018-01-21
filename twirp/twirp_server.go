@@ -2,7 +2,10 @@ package main
 
 import (
 	context "context"
+	"crypto/tls"
+	"crypto/x509"
 	"flag"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -34,6 +37,24 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	server := NewHelloServer(&hello{}, nil)
-	log.Fatal(http.Serve(ln, server))
+	caCert, err := ioutil.ReadFile("rootCA.pem")
+	if err != nil {
+		log.Fatal(err)
+	}
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+
+	tlsConfig := &tls.Config{
+		RootCAs: caCertPool,
+	}
+	tlsConfig.BuildNameToCertificate()
+
+	s := NewHelloServer(&hello{}, nil)
+	server := &http.Server{
+		Addr:      ":8443",
+		Handler:   s,
+		TLSConfig: tlsConfig,
+	}
+
+	log.Fatal(server.ServeTLS(ln, "server.crt", "server.key"))
 }

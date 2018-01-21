@@ -1,8 +1,11 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"reflect"
 	"sync"
@@ -13,11 +16,12 @@ import (
 	"github.com/montanaflynn/stats"
 	"github.com/smallnest/rpcx/log"
 	"golang.org/x/net/context"
+	"golang.org/x/net/http2"
 )
 
 var concurrency = flag.Int("c", 1, "concurrency")
 var total = flag.Int("n", 1, "total requests for all clients")
-var host = flag.String("s", "http://127.0.0.1:8972", "listened ip and port")
+var host = flag.String("s", "https://127.0.0.1:8972", "listened ip and port")
 
 func main() {
 	flag.Parse()
@@ -39,6 +43,17 @@ func main() {
 
 	d := make([][]int64, n, n)
 
+	caCert, err := ioutil.ReadFile("rootCA.pem")
+	if err != nil {
+		log.Fatal(err)
+	}
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+
+	tlsConfig := &tls.Config{
+		RootCAs: caCertPool,
+	}
+
 	//it contains warmup time but we can ignore it
 	totalT := time.Now().UnixNano()
 	for i := 0; i < n; i++ {
@@ -47,7 +62,11 @@ func main() {
 
 		go func(i int) {
 
-			c := NewHelloProtobufClient(*host, &http.Client{})
+			c := NewHelloProtobufClient(*host, &http.Client{
+				Transport: &http2.Transport{
+					TLSClientConfig: tlsConfig,
+				},
+			})
 
 			//warmup
 			for j := 0; j < 5; j++ {

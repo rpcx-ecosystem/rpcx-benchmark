@@ -2,10 +2,8 @@ package main
 
 import (
 	"crypto/tls"
-	"crypto/x509"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"reflect"
 	"sync"
@@ -43,15 +41,16 @@ func main() {
 
 	d := make([][]int64, n, n)
 
-	caCert, err := ioutil.ReadFile("rootCA.pem")
-	if err != nil {
-		log.Fatal(err)
-	}
-	caCertPool := x509.NewCertPool()
-	caCertPool.AppendCertsFromPEM(caCert)
+	// caCert, err := ioutil.ReadFile("rootCA.pem")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// caCertPool := x509.NewCertPool()
+	// caCertPool.AppendCertsFromPEM(caCert)
 
 	tlsConfig := &tls.Config{
-		RootCAs: caCertPool,
+		//RootCAs:            caCertPool,
+		InsecureSkipVerify: true,
 	}
 
 	//it contains warmup time but we can ignore it

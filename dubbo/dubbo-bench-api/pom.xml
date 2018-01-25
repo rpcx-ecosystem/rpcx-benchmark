@@ -19,32 +19,22 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.alibaba</groupId>
-        <artifactId>dubbo-parent</artifactId>
+        <artifactId>dubbo-bench</artifactId>
         <version>2.6.1</version>
     </parent>
-    <artifactId>dubbo-bench</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>dubbo-bench-api</artifactId>
+    <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The bench module of dubbo project</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
     </properties>
-    <modules>
-        <module>dubbo-bench-api</module>
-        <module>dubbo-bench-provider</module>
-        <module>dubbo-bench-consumer</module>
-    </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>dubbo-bom</artifactId>
-                <version>${project.parent.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+    </dependencies>
 </project>

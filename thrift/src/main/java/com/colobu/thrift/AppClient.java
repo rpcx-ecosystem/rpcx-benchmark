@@ -14,6 +14,7 @@ import org.apache.commons.math3.stat.descriptive.SynchronizedDescriptiveStatisti
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
@@ -93,7 +94,7 @@ public class AppClient {
 
         //warmup
         for (int i = 0; i < n; i++) {
-            transport[i] = new TSocket(host, 8972);
+            transport[i] = new TFramedTransport(new TSocket(host, 8972));
             transport[i].open();
 
             TProtocol protocol = new TBinaryProtocol(transport[i]);

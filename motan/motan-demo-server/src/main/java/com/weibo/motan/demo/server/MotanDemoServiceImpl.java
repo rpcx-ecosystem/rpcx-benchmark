@@ -24,6 +24,8 @@ import com.weibo.motan.demo.service.MotanDemoService;
 @MotanService(export = "8002")
 public class MotanDemoServiceImpl implements MotanDemoService {
 
+    long sleep;
+
     public String hello(String name) {
         System.out.println(name);
         return "Hello " + name + "!";
@@ -32,15 +34,25 @@ public class MotanDemoServiceImpl implements MotanDemoService {
     @Override
     public byte[] say(byte[] msg) {
         try {
+            if (sleep > 0) {
+                Thread.sleep(sleep);
+            }
             DubboBenchmark.BenchmarkMessage data = DubboBenchmark.BenchmarkMessage.newBuilder().mergeFrom(msg)
                     .setField1("OK").setField2(100).build();
             return data.toByteArray();
 
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         return new byte[0];
     }
+
+    public void setSleep(long sleep) {
+        this.sleep = sleep;
+    }
+
 
 }

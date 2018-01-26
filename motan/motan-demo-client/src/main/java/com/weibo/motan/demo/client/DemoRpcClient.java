@@ -26,7 +26,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,12 +50,22 @@ public class DemoRpcClient {
     public static void main(String[] args) throws Exception {
         final DescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
 
-        int threads = Integer.parseInt(args[0]);
+
+        int threads = 1;
+
+        if (args.length >0) {
+            threads = Integer.parseInt(args[0]);
+        }
+
 
         DubboBenchmark.BenchmarkMessage msg = prepareArgs();
         final byte[] msgBytes = msg.toByteArray();
 
-        int n = 1000000;
+        int n = 10;
+        if (args.length >1) {
+            n = Integer.parseInt(args[1]);
+        }
+
         final CountDownLatch latch = new CountDownLatch(n);
 
         ExecutorService es = Executors.newFixedThreadPool(threads);
@@ -68,29 +77,32 @@ public class DemoRpcClient {
 
         ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"classpath:motan_demo_client.xml"});
 
-        MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
+        final MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
 
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {
-            es.submit(() -> {
-                try {
+            es.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
 
-                    long t = System.currentTimeMillis();
-                    DubboBenchmark.BenchmarkMessage m = testSay(service, msgBytes);
-                    t = System.currentTimeMillis() - t;
-                    stats.addValue(t);
+                        long t = System.currentTimeMillis();
+                        DubboBenchmark.BenchmarkMessage m = testSay(service, msgBytes);
+                        t = System.currentTimeMillis() - t;
+                        stats.addValue(t);
 
-                    trans.incrementAndGet();
+                        trans.incrementAndGet();
 
-                    if (m != null && m.getField1().equals("OK")) {
-                        transOK.incrementAndGet();
+                        if (m != null && m.getField1().equals("OK")) {
+                            transOK.incrementAndGet();
+                        }
+
+                    } finally {
+                        latch.countDown();
                     }
-
-                } finally {
-                    latch.countDown();
                 }
-            });
+            } );
         }
 
 
@@ -127,9 +139,9 @@ public class DemoRpcClient {
         Method[] methods = builder.getClass().getDeclaredMethods();
         for (Method m : methods) {
             if (m.getName().startsWith("setField") && ((m.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC)) {
-                Parameter[] params = m.getParameters();
+                Class[] params = m.getParameterTypes();
                 if (params.length == 1) {
-                    String n = params[0].getParameterizedType().getTypeName();
+                    String n = params[0].getName();
                     m.setAccessible(true);
                     if (n.endsWith("java.lang.String")) {
                         m.invoke(builder, new Object[]{s});

@@ -17,7 +17,7 @@
 package com.weibo.motan.demo.service;
 
 public interface MotanDemoService {
-	public String hello(String name);
-	public byte[] say(byte[] msg);
-
+	String hello(String name);
+	byte[] say(byte[] msg);
+	void setSleep(long sleep);
 }

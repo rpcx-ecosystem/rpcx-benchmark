@@ -30,7 +30,7 @@ limitations under the License.
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
-    <dubbo:reference id="demoService" check="false" interface="com.alibaba.dubbo.bench.DemoService"/>
+    <dubbo:reference id="demoService" check="false" interface="com.alibaba.dubbo.bench.DemoService" timeout="3000" />
 
     <bean id="demoAction" class="com.alibaba.dubbo.bench.consumer.DemoAction">
         <property name="demoService" ref="demoService" />

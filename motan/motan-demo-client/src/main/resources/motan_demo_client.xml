@@ -33,7 +33,7 @@
                     loadbalance="roundrobin" maxClientConnection="10" minClientConnection="2"/>
 
     <!-- 通用referer基础配置 -->
-    <motan:basicReferer requestTimeout="200" accessLog="false"
+    <motan:basicReferer requestTimeout="10000" accessLog="false"
                         retries="2" group="motan-demo-rpc" module="motan-demo-rpc"
                         application="myMotanDemo" protocol="motan" registry="registry"
                         id="motantestClientBasicConfig" throwException="true" check="true"/>
@@ -41,6 +41,6 @@
     <!-- 具体referer配置。使用方通过beanid使用服务接口类 -->
     <motan:referer id="motanDemoReferer"
                    interface="com.weibo.motan.demo.service.MotanDemoService"
-                   connectTimeout="1000" requestTimeout="1000" basicReferer="motantestClientBasicConfig"/>
+                   connectTimeout="10000" requestTimeout="10000" basicReferer="motantestClientBasicConfig"/>
 
 </beans>

@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"net"
+	"runtime"
 	"time"
 
 	"github.com/smallnest/rpcx/log"
@@ -19,6 +20,8 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage) (reply *Benchma
 	args.Field2 = i
 	if *delay > 0 {
 		time.Sleep(*delay)
+	} else {
+		runtime.Gosched()
 	}
 	return args, nil
 }

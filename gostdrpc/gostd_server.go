@@ -8,6 +8,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"net/rpc"
+	"runtime"
 	"time"
 
 	codec "github.com/mars9/codec"
@@ -21,6 +22,8 @@ func (t *Hello) Say(args *BenchmarkMessage, reply *BenchmarkMessage) error {
 	*reply = *args
 	if *delay > 0 {
 		time.Sleep(*delay)
+	} else {
+		runtime.Gosched()
 	}
 	return nil
 }

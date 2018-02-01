@@ -42,6 +42,8 @@ public class Consumer {
             demoAction.count = Integer.parseInt(args[1]);
         }
 
+        demoAction.warmup();
+
         demoAction.start();
 
     }

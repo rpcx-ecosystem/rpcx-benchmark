@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"runtime"
 	"time"
 
 	"github.com/hprose/hprose-golang/rpc"
@@ -14,6 +15,8 @@ func say(in []byte) ([]byte, error) {
 	args.Field2 = 100
 	if *delay > 0 {
 		time.Sleep(*delay)
+	} else {
+		runtime.Gosched()
 	}
 	return args.Marshal()
 }

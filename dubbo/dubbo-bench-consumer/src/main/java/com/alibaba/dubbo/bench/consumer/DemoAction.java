@@ -67,6 +67,14 @@ public class DemoAction {
         return null;
     }
 
+    public void warmup() throws Exception {
+        DubboBenchmark.BenchmarkMessage msg = prepareArgs();
+        final byte[] msgBytes = msg.toByteArray();
+
+        for (int i = 0; i < 10; i++) {
+            DubboBenchmark.BenchmarkMessage m = testSay(msgBytes);
+        }
+    }
 
     public void start() throws Exception {
 

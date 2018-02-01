@@ -39,7 +39,14 @@ public class AppClient {
 
         final CountDownLatch latch = new CountDownLatch(n);
 
+
         final int count = n / threads; //count per client
+
+        //warmup
+        for (int i = 0; i < count; i++) {
+            client[i].say(msg);
+        }
+
         long start = System.currentTimeMillis();
         for (int i = 0; i < threads; i++) {
             final int k = i;

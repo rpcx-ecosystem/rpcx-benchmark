@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"runtime"
 	"time"
 
 	rlog "github.com/smallnest/rpcx/log"
@@ -20,6 +21,8 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage, reply *Benchmar
 	*reply = *args
 	if *delay > 0 {
 		time.Sleep(*delay)
+	} else {
+		runtime.Gosched()
 	}
 	return nil
 }

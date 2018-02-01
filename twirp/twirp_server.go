@@ -9,6 +9,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"runtime"
 	"time"
 )
 
@@ -20,7 +21,12 @@ func (t *hello) Say(ctx context.Context, args *BenchmarkMessage) (reply *Benchma
 	args.Field1 = &s
 	args.Field2 = &i
 
-	time.Sleep(*delay)
+	if *delay > 0 {
+		time.Sleep(*delay)
+	} else {
+		runtime.Gosched()
+	}
+
 	return args, nil
 }
 

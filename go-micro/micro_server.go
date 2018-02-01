@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	fmt "fmt"
+	"runtime"
 	"time"
 
 	micro "github.com/micro/go-micro"
@@ -19,6 +20,8 @@ func (t *HelloS) Say(ctx context.Context, args *BenchmarkMessage, reply *Benchma
 	*reply = *args
 	if *delay > 0 {
 		time.Sleep(*delay)
+	} else {
+		runtime.Gosched()
 	}
 	return nil
 }

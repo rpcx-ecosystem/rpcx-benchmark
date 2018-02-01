@@ -79,6 +79,10 @@ public class DemoRpcClient {
 
         final MotanDemoService service = (MotanDemoService) ctx.getBean("motanDemoReferer");
 
+        //warmup
+        for (int i = 0; i < 10; i++) {
+            testSay(service, msgBytes);
+        }
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < n; i++) {

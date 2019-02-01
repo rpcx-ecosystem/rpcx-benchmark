@@ -7,16 +7,17 @@ import (
 	"time"
 
 	micro "github.com/micro/go-micro"
+	"github.com/rpcx-ecosystem/rpcx-benchmark/go-micro/pb"
 	"golang.org/x/net/context"
 )
 
 type HelloS struct{}
 
-func (t *HelloS) Say(ctx context.Context, args *BenchmarkMessage, reply *BenchmarkMessage) error {
+func (t *HelloS) Say(ctx context.Context, args *pb.BenchmarkMessage, reply *pb.BenchmarkMessage) error {
 	s := "OK"
 	var i int32 = 100
-	args.Field1 = &s
-	args.Field2 = &i
+	args.Field1 = s
+	args.Field2 = i
 	*reply = *args
 	if *delay > 0 {
 		time.Sleep(*delay)
@@ -40,7 +41,7 @@ func main() {
 
 	service.Init()
 
-	RegisterHelloHandler(service.Server(), &HelloS{})
+	pb.RegisterHelloHandler(service.Server(), &HelloS{})
 
 	// Run the server
 	if err := service.Run(); err != nil {

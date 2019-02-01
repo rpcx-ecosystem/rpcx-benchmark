@@ -6,10 +6,11 @@ import (
 	"time"
 
 	"github.com/hprose/hprose-golang/rpc"
+	"github.com/rpcx-ecosystem/rpcx-benchmark/proto"
 )
 
 func say(in []byte) ([]byte, error) {
-	args := &BenchmarkMessage{}
+	args := &proto.BenchmarkMessage{}
 	args.Unmarshal(in)
 	args.Field1 = "OK"
 	args.Field2 = 100

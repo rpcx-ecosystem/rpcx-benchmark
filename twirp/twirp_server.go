@@ -11,11 +11,13 @@ import (
 	"net/http"
 	"runtime"
 	"time"
+
+	"github.com/rpcx-ecosystem/rpcx-benchmark/twirp/pb"
 )
 
 type hello struct{}
 
-func (t *hello) Say(ctx context.Context, args *BenchmarkMessage) (reply *BenchmarkMessage, err error) {
+func (t *hello) Say(ctx context.Context, args *pb.BenchmarkMessage) (reply *pb.BenchmarkMessage, err error) {
 	s := "OK"
 	var i int32 = 100
 	args.Field1 = &s
@@ -55,7 +57,7 @@ func main() {
 	}
 	tlsConfig.BuildNameToCertificate()
 
-	s := NewHelloServer(&hello{}, nil)
+	s := pb.NewHelloServer(&hello{}, nil)
 	server := &http.Server{
 		Addr:      ":8443",
 		Handler:   s,

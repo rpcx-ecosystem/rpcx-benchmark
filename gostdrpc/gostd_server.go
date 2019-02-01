@@ -12,11 +12,12 @@ import (
 	"time"
 
 	codec "github.com/mars9/codec"
+	"github.com/rpcx-ecosystem/rpcx-benchmark/proto"
 )
 
 type Hello int
 
-func (t *Hello) Say(args *BenchmarkMessage, reply *BenchmarkMessage) error {
+func (t *Hello) Say(args *proto.BenchmarkMessage, reply *proto.BenchmarkMessage) error {
 	args.Field1 = "OK"
 	args.Field2 = 100
 	*reply = *args

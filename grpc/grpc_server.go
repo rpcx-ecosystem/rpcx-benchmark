@@ -6,14 +6,20 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/rpcx-ecosystem/rpcx-benchmark/grpc/pb"
 	"github.com/smallnest/rpcx/log"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
+var (
+	host  = flag.String("s", "127.0.0.1:8972", "listened ip and port")
+	delay = flag.Duration("delay", 0, "delay to mock business processing")
+)
+
 type Hello struct{}
 
-func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage) (reply *BenchmarkMessage, err error) {
+func (t *Hello) Say(ctx context.Context, args *pb.BenchmarkMessage) (reply *pb.BenchmarkMessage, err error) {
 	s := "OK"
 	var i int32 = 100
 	args.Field1 = s
@@ -26,11 +32,6 @@ func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage) (reply *Benchma
 	return args, nil
 }
 
-var (
-	host  = flag.String("s", "127.0.0.1:8972", "listened ip and port")
-	delay = flag.Duration("delay", 0, "delay to mock business processing")
-)
-
 func main() {
 	flag.Parse()
 
@@ -40,6 +41,6 @@ func main() {
 	}
 	s := grpc.NewServer()
 
-	RegisterHelloServer(s, &Hello{})
+	pb.RegisterHelloServer(s, &Hello{})
 	s.Serve(lis)
 }

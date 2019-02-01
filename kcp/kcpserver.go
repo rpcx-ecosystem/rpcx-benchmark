@@ -6,6 +6,7 @@ import (
 	"flag"
 	"time"
 
+	"github.com/rpcx-ecosystem/rpcx-benchmark/proto"
 	"github.com/smallnest/rpcx/server"
 	kcp "github.com/xtaci/kcp-go"
 	"golang.org/x/crypto/pbkdf2"
@@ -13,7 +14,7 @@ import (
 
 type Hello int
 
-func (t *Hello) Say(ctx context.Context, args *BenchmarkMessage, reply *BenchmarkMessage) error {
+func (t *Hello) Say(ctx context.Context, args *proto.BenchmarkMessage, reply *proto.BenchmarkMessage) error {
 	args.Field1 = "OK"
 	args.Field2 = 100
 	*reply = *args
@@ -39,11 +40,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	options := map[string]interface{}{"BlockCrypt": bc}
-
-	server := server.NewServer(options)
-	server.RegisterName("Hello", new(Hello), "")
-	err = server.Serve("kcp", *host)
+	s := server.NewServer(server.WithBlockCrypt(bc))
+	s.RegisterName("Hello", new(Hello), "")
+	err = s.Serve("kcp", *host)
 	if err != nil {
 		panic(err)
 	}

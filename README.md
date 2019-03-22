@@ -172,3 +172,43 @@ rpcx的测试结果如上，下面事gRPC的测试结果。
 5000|38|1|25087|0|33198
 
 ![](_documents/images/rpcx-grpc-2.png)
+
+
+### !! Latest Benchmark !!
+
+**updated**:  2019-03-02
+
+
+`TPS`:吞吐率
+`mean`: 单个请求平均耗时
+`max`: 单个请求的最大耗时
+`min`: 单个请求的最小耗时
+`p99`: 99%的请求单个耗时
+
+####  并发数 256
+
+tarsgo client启动命令： `CONC=256 TOTAL=1000000 ./mclient --config=benchmark.conf`
+
+|         |TPS    |   mean  |   max  |  min   | p99 |
+|---|---|---|---|---|---|
+|tarsgo |  42985  |   5ms  |    600ms | 0ms  |  36ms|
+|rpcx   |  122166  |  2ms   |   31ms |  0ms  |  18ms|
+|grpc   |  130642  |  1ms  |    16ms  | 0ms   | 9ms|
+
+##  并发数 512
+tarsgo client启动命令： `CONC=512 TOTAL=1000000 ./mclient --config=benchmark.conf`
+
+|         |TPS    |   mean  |   max  |  min   | p99 |
+|---|---|---|---|---|---|
+|tarsgo |  39485  |   12ms   |  591ms | 0ms  |  507ms|
+|rpcx   |  142177  |  3ms    |  63ms  | 0ms  |  28ms|
+|grpc  |   123099 |   4ms    |  46ms  | 0ms  |  16ms|
+
+## 并发数 1024
+tarsgo client启动命令： `CONC=1024 TOTAL=1000000 ./mclient --config=benchmark.conf`
+
+|         |TPS    |   mean  |   max  |  min   | p99 |
+|---|---|---|---|---|---|
+|tarsgo |  40944 |    24ms  |   809m |  0ms  |  612ms|
+|rpcx  |   134439  |  6ms   |   79ms  | 0ms  |  49ms|
+|grpc |    115607 |   8ms   |   115ms | 0ms  |  33ms|

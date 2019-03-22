@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"reflect"
-	"strings"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -16,20 +17,27 @@ import (
 	"github.com/smallnest/rpcx/log"
 )
 
-var concurrency = flag.Int("c", 1, "concurrency")
-var total = flag.Int("n", 1, "total requests for all clients")
-var host = flag.String("s", "127.0.0.1:8972", "server ip and port")
+// var concurrency = flag.Int("c", 256, "concurrency")
+// var total = flag.Int("n", 1000000, "total requests for all clients")
 
 func main() {
 	flag.Parse()
-	n := *concurrency
-	m := *total / n
+
+	concurrency, _ := os.LookupEnv("CONC")
+	if concurrency == "" {
+		concurrency = "256"
+	}
+
+	total, _ := os.LookupEnv("TOTAL")
+	if total == "" {
+		total = "100000"
+	}
+
+	n, _ := strconv.Atoi(concurrency)
+	m, _ := strconv.Atoi(total)
+	m = m / n
 
 	selected := -1
-	servers := strings.Split(*host, ",")
-	sNum := len(servers)
-
-	log.Infof("Servers: %+v\n\n", servers)
 
 	log.Infof("concurrency: %d\nrequests per client: %d\n\n", n, m)
 
@@ -51,7 +59,6 @@ func main() {
 	for i := 0; i < n; i++ {
 		dt := make([]int64, 0, m)
 		d = append(d, dt)
-		selected = (selected + 1) % sNum
 
 		go func(i int, selected int) {
 			comm := tars.NewCommunicator()

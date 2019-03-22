@@ -55,7 +55,7 @@ func main() {
 
 		go func(i int, selected int) {
 			comm := tars.NewCommunicator()
-			obj := fmt.Sprintf("StressTest.HelloPbServer.HelloTestObj@tcp -h 127.0.0.1  -p 8972  -t 60000")
+			obj := fmt.Sprintf("TestApp.HelloServer.HelloTestObj@tcp -h 127.0.0.1  -p 8972  -t 60000")
 			app := new(pb.Hello)
 			comm.StringToProxy(obj, app)
 

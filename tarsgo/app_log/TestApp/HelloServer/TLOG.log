@@ -1677,3 +1677,223 @@
 2019-03-22 12:07:01|statf.go:101|DEBUG|stat report
 2019-03-22 12:07:01|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
 2019-03-22 12:07:01|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:07:11|statf.go:48|DEBUG|report statList.size:1
+2019-03-22 12:07:11|adapter.go:83|DEBUG|send req:109
+2019-03-22 12:07:11|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:07:11|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:11|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:11|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:11|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:11|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:07:11|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:11|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:11|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:11|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:11|statf.go:101|DEBUG|stat report
+2019-03-22 12:07:11|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:11|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:07:21|statf.go:48|DEBUG|report statList.size:1
+2019-03-22 12:07:21|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:21|adapter.go:83|DEBUG|send req:110
+2019-03-22 12:07:21|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:21|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:07:21|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:21|adapter.go:83|DEBUG|send req:19
+2019-03-22 12:07:21|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:21|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:07:21|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:21|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:07:21|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:21|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:21|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:21|statf.go:101|DEBUG|stat report
+2019-03-22 12:07:21|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:21|servant.go:74|ERROR|Invoke Obj:tars.tarsregistry.QueryObj,fun:findObjectByIdInSameGroup,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:21|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:07:21|endpointmanager.go:201|ERROR|find obj end fail:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:31|statf.go:48|DEBUG|report statList.size:2
+2019-03-22 12:07:31|adapter.go:83|DEBUG|send req:111
+2019-03-22 12:07:31|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:07:31|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:31|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:31|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:31|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:31|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:07:31|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:31|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:31|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:31|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:31|statf.go:101|DEBUG|stat report
+2019-03-22 12:07:31|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:31|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:07:41|statf.go:48|DEBUG|report statList.size:1
+2019-03-22 12:07:41|adapter.go:83|DEBUG|send req:112
+2019-03-22 12:07:41|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:07:41|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:41|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:41|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:41|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:41|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:07:41|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:41|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:41|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:41|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:41|statf.go:101|DEBUG|stat report
+2019-03-22 12:07:41|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:41|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:07:51|statf.go:48|DEBUG|report statList.size:1
+2019-03-22 12:07:51|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:51|adapter.go:83|DEBUG|send req:113
+2019-03-22 12:07:51|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:07:51|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:51|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:51|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:51|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:07:51|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:07:51|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:07:51|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:07:51|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:07:51|statf.go:101|DEBUG|stat report
+2019-03-22 12:07:51|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:07:51|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:08:01|statf.go:48|DEBUG|report statList.size:1
+2019-03-22 12:08:01|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:08:01|adapter.go:83|DEBUG|send req:114
+2019-03-22 12:08:01|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:08:01|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:08:01|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:08:01|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:08:01|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:08:01|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:08:01|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:08:01|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:08:01|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:08:01|statf.go:101|DEBUG|stat report
+2019-03-22 12:08:01|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:08:01|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:08:11|statf.go:48|DEBUG|report statList.size:1
+2019-03-22 12:08:11|adapter.go:83|DEBUG|send req:115
+2019-03-22 12:08:11|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:08:11|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:08:11|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:08:11|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:08:11|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:08:11|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:08:11|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:08:11|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:08:11|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:08:11|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:08:11|statf.go:101|DEBUG|stat report
+2019-03-22 12:08:11|servant.go:74|ERROR|Invoke Obj:StressTest.HelloPbServer.HelloTestObj,fun:keepAlive,error:dial tcp 127.0.0.1:8972: connect: connection refused
+2019-03-22 12:08:11|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:08:20|application.go:134|DEBUG|config add map[TestApp.HelloServer.HelloTestObj:0xc00017c070]
+2019-03-22 12:08:20|servanthandle.go:29|DEBUG|add:&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 0 134217728 134217728 false}
+2019-03-22 12:08:20|servanthandle.go:29|DEBUG|add:&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 10000000 134217728 134217728 false}
+2019-03-22 12:08:20|application.go:186|DEBUG|RunTestApp.HelloServer.HelloTestObj&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 0 134217728 134217728 false}
+2019-03-22 12:08:20|application.go:186|DEBUG|RunAdminObj&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 10000000 134217728 134217728 false}
+2019-03-22 12:08:20|endpointmanager.go:45|DEBUG|proxy mode:tars.tarsnotify.NotifyObj
+2019-03-22 12:08:20|endpointmanager.go:136|DEBUG|create adapter:{127.0.0.1 8972 60000 1 tcp   }
+2019-03-22 12:08:20|endpointmanager.go:136|DEBUG|create adapter:{127.0.0.1 8972 3000 1 tcp   }
+2019-03-22 12:08:20|adapter.go:83|DEBUG|send req:2
+2019-03-22 12:08:20|adapter.go:83|DEBUG|send req:1
+2019-03-22 12:08:20|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:08:20|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:08:20|adapter.go:83|DEBUG|send req:1
+2019-03-22 12:08:20|tcphandler.go:38|INFO|Listening on127.0.0.1:8972
+2019-03-22 12:08:20|tcphandler.go:38|INFO|Listening on127.0.0.1:8972
+2019-03-22 12:08:58|application.go:134|DEBUG|config add map[TestApp.HelloServer.HelloTestObj:0xc000152070]
+2019-03-22 12:08:58|servanthandle.go:29|DEBUG|add:&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 0 134217728 134217728 false}
+2019-03-22 12:08:58|servanthandle.go:29|DEBUG|add:&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 10000000 134217728 134217728 false}
+2019-03-22 12:08:58|application.go:186|DEBUG|RunTestApp.HelloServer.HelloTestObj&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 0 134217728 134217728 false}
+2019-03-22 12:08:58|application.go:186|DEBUG|RunAdminObj&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 10000000 134217728 134217728 false}
+2019-03-22 12:08:58|endpointmanager.go:45|DEBUG|proxy mode:tars.tarsnotify.NotifyObj
+2019-03-22 12:08:58|endpointmanager.go:136|DEBUG|create adapter:{127.0.0.1 8972 3000 1 tcp   }
+2019-03-22 12:08:58|adapter.go:83|DEBUG|send req:1
+2019-03-22 12:08:58|endpointmanager.go:136|DEBUG|create adapter:{127.0.0.1 8972 60000 1 tcp   }
+2019-03-22 12:08:58|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:08:58|adapter.go:83|DEBUG|send req:1
+2019-03-22 12:08:58|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:08:58|adapter.go:83|DEBUG|send req:2
+2019-03-22 12:08:58|tcphandler.go:38|INFO|Listening on127.0.0.1:8972
+2019-03-22 12:08:58|tcphandler.go:38|INFO|Listening on127.0.0.1:8972
+2019-03-22 12:10:07|application.go:134|DEBUG|config add map[TestApp.HelloServer.HelloTestObj:0xc000190070]
+2019-03-22 12:10:07|servanthandle.go:29|DEBUG|add:&{tcp 127.0.0.1:18972 0 500ms 0s 0s 0s 10m0s 0 134217728 134217728 false}
+2019-03-22 12:10:07|servanthandle.go:29|DEBUG|add:&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 10000000 134217728 134217728 false}
+2019-03-22 12:10:07|application.go:186|DEBUG|RunTestApp.HelloServer.HelloTestObj&{tcp 127.0.0.1:18972 0 500ms 0s 0s 0s 10m0s 0 134217728 134217728 false}
+2019-03-22 12:10:07|application.go:186|DEBUG|RunAdminObj&{tcp 127.0.0.1:8972 0 500ms 0s 0s 0s 10m0s 10000000 134217728 134217728 false}
+2019-03-22 12:10:07|endpointmanager.go:45|DEBUG|proxy mode:tars.tarsnotify.NotifyObj
+2019-03-22 12:10:07|endpointmanager.go:136|DEBUG|create adapter:{127.0.0.1 8972 3000 1 tcp   }
+2019-03-22 12:10:07|endpointmanager.go:136|DEBUG|create adapter:{127.0.0.1 8972 60000 1 tcp   }
+2019-03-22 12:10:07|adapter.go:83|DEBUG|send req:1
+2019-03-22 12:10:07|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:10:07|adapter.go:83|DEBUG|send req:1
+2019-03-22 12:10:07|adapter.go:83|DEBUG|send req:2
+2019-03-22 12:10:07|tarsclient.go:169|DEBUG|Connect:127.0.0.1:8972
+2019-03-22 12:10:07|tcphandler.go:38|INFO|Listening on127.0.0.1:18972
+2019-03-22 12:10:07|tcphandler.go:38|INFO|Listening on127.0.0.1:8972
+2019-03-22 12:10:07|tcphandler.go:88|DEBUG|TCP accept:127.0.0.1:60817
+2019-03-22 12:10:07|tcphandler.go:88|DEBUG|TCP accept:127.0.0.1:60818
+2019-03-22 12:10:07|tarsprotocol.go:41|DEBUG|invoke:1
+2019-03-22 12:10:07|tarsprotocol.go:41|DEBUG|invoke:2
+2019-03-22 12:10:07|tarsprotocol.go:41|DEBUG|invoke:1
+2019-03-22 12:10:07|adapter.go:74|DEBUG|IN:{1 0 2 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:07|adapter.go:74|DEBUG|IN:{1 0 1 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:07|adapter.go:74|DEBUG|IN:{1 0 1 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:07|servant.go:74|ERROR|Invoke Obj:TestApp.HelloServer.HelloTestObj,fun:keepAlive,error:func mismatch
+2019-03-22 12:10:07|servant.go:74|ERROR|Invoke Obj:TestApp.HelloServer.HelloTestObj,fun:reportVersion,error:func mismatch
+2019-03-22 12:10:07|nodef.go:36|ERROR|keepalive fail:
+2019-03-22 12:10:07|nodef.go:44|ERROR|report Version fail:
+2019-03-22 12:10:07|servant.go:74|ERROR|Invoke Obj:tars.tarsregistry.QueryObj,fun:findObjectByIdInSameGroup,error:func mismatch
+2019-03-22 12:10:07|endpointmanager.go:201|ERROR|find obj end fail:func mismatch
+2019-03-22 12:10:07|notifyf.go:38|DEBUG|{0 TestApp   HelloServer restart  0}
+2019-03-22 12:10:07|servant.go:74|ERROR|Invoke Obj:tars.tarsnotify.NotifyObj,fun:reportNotifyInfo,error:no adapter Proxy selected:tars.tarsnotify.NotifyObj
+2019-03-22 12:10:17|adapter.go:83|DEBUG|send req:3
+2019-03-22 12:10:17|statf.go:48|DEBUG|report statList.size:4
+2019-03-22 12:10:17|tarsprotocol.go:41|DEBUG|invoke:3
+2019-03-22 12:10:17|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:10:17|adapter.go:74|DEBUG|IN:{1 0 3 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:17|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:10:17|servant.go:74|ERROR|Invoke Obj:TestApp.HelloServer.HelloTestObj,fun:keepAlive,error:func mismatch
+2019-03-22 12:10:17|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:10:17|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:10:17|nodef.go:36|ERROR|keepalive fail:TestApp.HelloServer.HelloTestObjAdapter
+2019-03-22 12:10:17|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:10:17|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:10:17|adapter.go:83|DEBUG|send req:4
+2019-03-22 12:10:17|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:10:17|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:10:17|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:10:17|statf.go:101|DEBUG|stat report
+2019-03-22 12:10:17|tarsprotocol.go:41|DEBUG|invoke:4
+2019-03-22 12:10:17|adapter.go:74|DEBUG|IN:{1 0 4 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:17|servant.go:74|ERROR|Invoke Obj:TestApp.HelloServer.HelloTestObj,fun:keepAlive,error:func mismatch
+2019-03-22 12:10:17|nodef.go:36|ERROR|keepalive fail:AdminAdapter
+2019-03-22 12:10:22|tcphandler.go:88|DEBUG|TCP accept:127.0.0.1:60821
+2019-03-22 12:10:22|tarsprotocol.go:41|DEBUG|invoke:1
+2019-03-22 12:10:22|tarsprotocol.go:41|DEBUG|invoke:2
+2019-03-22 12:10:22|tarsprotocol.go:41|DEBUG|invoke:3
+2019-03-22 12:10:22|tarsprotocol.go:41|DEBUG|invoke:4
+2019-03-22 12:10:22|tarsprotocol.go:41|DEBUG|invoke:5
+2019-03-22 12:10:22|tarsprotocol.go:41|DEBUG|invoke:6
+2019-03-22 12:10:22|tcphandler.go:125|DEBUG|connection closed by remote:127.0.0.1:60821
+2019-03-22 12:10:27|statf.go:48|DEBUG|report statList.size:2
+2019-03-22 12:10:27|adapter.go:83|DEBUG|send req:5
+2019-03-22 12:10:27|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:10:27|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:10:27|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:10:27|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:10:27|statf.go:48|DEBUG|report statList.size:0
+2019-03-22 12:10:27|servant.go:74|ERROR|Invoke Obj:,fun:reportMicMsg,error:no adapter Proxy selected:
+2019-03-22 12:10:27|statf.go:166|DEBUG|report err:servant name () format error
+2019-03-22 12:10:27|statf.go:85|DEBUG|report err:no adapter Proxy selected:
+2019-03-22 12:10:27|statf.go:87|DEBUG|report ret:0
+2019-03-22 12:10:27|statf.go:101|DEBUG|stat report
+2019-03-22 12:10:27|tarsprotocol.go:41|DEBUG|invoke:5
+2019-03-22 12:10:27|adapter.go:74|DEBUG|IN:{1 0 5 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:27|servant.go:74|ERROR|Invoke Obj:TestApp.HelloServer.HelloTestObj,fun:keepAlive,error:func mismatch
+2019-03-22 12:10:27|nodef.go:36|ERROR|keepalive fail:TestApp.HelloServer.HelloTestObjAdapter
+2019-03-22 12:10:27|adapter.go:83|DEBUG|send req:6
+2019-03-22 12:10:27|tarsprotocol.go:41|DEBUG|invoke:6
+2019-03-22 12:10:27|adapter.go:74|DEBUG|IN:{1 0 6 0 1 [] map[] func mismatch map[]}
+2019-03-22 12:10:27|servant.go:74|ERROR|Invoke Obj:TestApp.HelloServer.HelloTestObj,fun:keepAlive,error:func mismatch
+2019-03-22 12:10:27|nodef.go:36|ERROR|keepalive fail:AdminAdapter

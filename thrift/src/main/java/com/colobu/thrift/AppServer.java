@@ -20,7 +20,7 @@ public class AppServer
         if (args.length >0) {
             delay = Long.parseLong(args[0]);
         }
-        try {
+        try { 
             handler = new GreeterHandler(delay);
             processor = new Greeter.Processor(handler);
 

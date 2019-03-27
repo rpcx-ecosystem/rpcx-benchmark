@@ -50,9 +50,8 @@ func main() {
 
 	var clientIndex uint64
 	var poolClients = make([]client.XClient, 0, *pool)
+	dis := client.NewMultipleServersDiscovery(serverPeers)
 	for i := 0; i < *pool; i++ {
-		dis := client.NewMultipleServersDiscovery(serverPeers)
-
 		option := client.DefaultOption
 		option.SerializeType = protocol.ProtoBuffer
 		xclient := client.NewXClient(servicePath, client.Failtry, client.RoundRobin, dis, option)

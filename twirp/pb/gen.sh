@@ -1,1 +1,0 @@
-protoc -I . pb_benchmark.proto --twirp_out=. --go_out=. 

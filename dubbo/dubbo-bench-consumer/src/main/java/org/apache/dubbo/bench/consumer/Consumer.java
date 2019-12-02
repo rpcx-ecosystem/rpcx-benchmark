@@ -14,26 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.bench.consumer;
+package org.apache.dubbo.bench.consumer;
 
-import com.alibaba.dubbo.bench.DemoService;
-import com.alibaba.dubbo.bench.DubboBenchmark;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.io.IOException;
-
+import org.apache.dubbo.bench.DemoService;
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
 public class Consumer {
 
     public static void main(String[] args) throws Exception {
-        //Prevent to get IPV6 address,this way only work in debug mode
-        //But you can pass use -Djava.net.preferIPv4Stack=true,then it work well whether in debug mode or not
-        System.setProperty("java.net.preferIPv4Stack", "true");
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/dubbo-bench-consumer.xml"});
-        context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+        ReferenceConfig<DemoService> reference = new ReferenceConfig<>();
+        reference.setApplication(new ApplicationConfig("dubbo-demo-api-consumer"));
+        reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        reference.setInterface(DemoService.class);
+        DemoService service = reference.get();
 
-        DemoAction demoAction = (DemoAction) context.getBean("demoAction");
-
+        DemoAction demoAction = new DemoAction();
+        demoAction.setDemoService(service);
 
         if (args.length > 0) {
             demoAction.threads = Integer.parseInt(args[0]);

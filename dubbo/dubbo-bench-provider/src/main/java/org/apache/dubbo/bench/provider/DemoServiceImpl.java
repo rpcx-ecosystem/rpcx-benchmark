@@ -13,31 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.bench.provider;
+package org.apache.dubbo.bench.provider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.alibaba.dubbo.bench.DemoService;
-import com.alibaba.dubbo.bench.DubboBenchmark;
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.google.protobuf.InvalidProtocolBufferException;
+import org.apache.dubbo.bench.DemoService;
+import org.apache.dubbo.bench.DubboBenchmark;
+import org.apache.dubbo.rpc.RpcContext;
 
 public class DemoServiceImpl implements DemoService {
 
     long sleep;
 
+    @Override
     public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name
+                + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return "Hello " + name + ", response form provider: " + RpcContext.getContext().getLocalAddress();
     }
 
     public byte[] say(byte[] msg) {
         try {
-            if (sleep > 0 ) {
+            if (sleep > 0) {
                 Thread.sleep(sleep);
             }
-
 
             DubboBenchmark.BenchmarkMessage data = DubboBenchmark.BenchmarkMessage.newBuilder().mergeFrom(msg)
                     .setField1("OK").setField2(100).build();
@@ -52,12 +53,8 @@ public class DemoServiceImpl implements DemoService {
         return new byte[0];
     }
 
-
     public void setSleep(long s) {
         sleep = s;
     }
-
-
-
 
 }

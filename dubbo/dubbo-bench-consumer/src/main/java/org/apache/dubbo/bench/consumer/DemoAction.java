@@ -13,12 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.bench.consumer;
-
-import com.alibaba.dubbo.bench.DemoService;
-import com.alibaba.dubbo.bench.DubboBenchmark;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.stat.descriptive.SynchronizedDescriptiveStatistics;
+package org.apache.dubbo.bench.consumer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,13 +25,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.SynchronizedDescriptiveStatistics;
+import org.apache.dubbo.bench.DemoService;
+import org.apache.dubbo.bench.DubboBenchmark;
+
+
 public class DemoAction {
 
     private DemoService demoService;
 
     int threads = 100;
     int count = 1000000;
-
 
     public void setDemoService(DemoService demoService) {
         this.demoService = demoService;
@@ -70,7 +70,6 @@ public class DemoAction {
     public void warmup() throws Exception {
         DubboBenchmark.BenchmarkMessage msg = prepareArgs();
         final byte[] msgBytes = msg.toByteArray();
-
         for (int i = 0; i < 10; i++) {
             DubboBenchmark.BenchmarkMessage m = testSay(msgBytes);
         }
@@ -78,9 +77,7 @@ public class DemoAction {
 
     public void start() throws Exception {
 
-
         final DescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
-
 
         DubboBenchmark.BenchmarkMessage msg = prepareArgs();
         final byte[] msgBytes = msg.toByteArray();
@@ -89,10 +86,8 @@ public class DemoAction {
 
         ExecutorService es = Executors.newFixedThreadPool(threads);
 
-
         final AtomicInteger trans = new AtomicInteger(0);
         final AtomicInteger transOK = new AtomicInteger(0);
-
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < this.count; i++) {
@@ -121,17 +116,14 @@ public class DemoAction {
             });
         }
 
-
         latch.await();
 
         start = System.currentTimeMillis() - start;
-
 
         System.out.printf("sent     requests    : %d\n", this.count);
         System.out.printf("received requests    : %d\n", trans.get());
         System.out.printf("received requests_OK : %d\n", transOK.get());
         System.out.printf("throughput  (TPS)    : %d\n", this.count * 1000 / start);
-
 
         System.out.printf("mean: %f\n", stats.getMean());
         System.out.printf("median: %f\n", stats.getPercentile(50));
@@ -147,7 +139,6 @@ public class DemoAction {
         int i = 100000;
         String s = "许多往事在眼前一幕一幕，变的那麼模糊";
 
-
         DubboBenchmark.BenchmarkMessage.Builder builder = DubboBenchmark.BenchmarkMessage.newBuilder();
 
         Method[] methods = builder.getClass().getDeclaredMethods();
@@ -158,11 +149,11 @@ public class DemoAction {
                     String n = params[0].getName();
                     m.setAccessible(true);
                     if (n.endsWith("java.lang.String")) {
-                        m.invoke(builder, new Object[]{s});
+                        m.invoke(builder, new Object[] { s });
                     } else if (n.endsWith("int")) {
-                        m.invoke(builder, new Object[]{i});
+                        m.invoke(builder, new Object[] { i });
                     } else if (n.equals("boolean")) {
-                        m.invoke(builder, new Object[]{b});
+                        m.invoke(builder, new Object[] { b });
                     }
 
                 }

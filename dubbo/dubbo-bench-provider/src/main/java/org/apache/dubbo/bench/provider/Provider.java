@@ -14,30 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.bench.provider;
+package org.apache.dubbo.bench.provider;
 
-import com.alibaba.dubbo.bench.DemoService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.ServiceConfig;
+import org.apache.dubbo.bench.DemoService;
 
 public class Provider {
 
     public static void main(String[] args) throws Exception {
-        //Prevent to get IPV6 address,this way only work in debug mode
-        //But you can pass use -Djava.net.preferIPv4Stack=true,then it work well whether in debug mode or not
-        System.setProperty("java.net.preferIPv4Stack", "true");
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/dubbo-bench-provider.xml"});
-        context.start();
+        ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
+        service.setApplication(new ApplicationConfig("dubbo-demo-api-provider"));
+        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        service.setInterface(DemoService.class);
+        service.setRef(new DemoServiceImpl());
+        service.export();
+        System.in.read();
 
-
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
-
-        if (args.length > 0) {
-            long s = Integer.parseInt(args[0]);
-            demoService.setSleep(s);
-        }
-
-
-        System.in.read(); // press any key to exit
     }
 
 }

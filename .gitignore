@@ -4,6 +4,9 @@
 *.so
 *.dylib
 
+target
+.flattened-pom.xml
+
 # Test binary, build with `go test -c`
 *.test
 

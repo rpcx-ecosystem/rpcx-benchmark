@@ -20,12 +20,17 @@ import org.apache.dubbo.bench.DemoService;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+
 public class Consumer {
 
     public static void main(String[] args) throws Exception {
         ReferenceConfig<DemoService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("dubbo-demo-api-consumer"));
-        reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        String zk = "zookeeper://127.0.0.1:2181";
+        if (args.length > 2) {
+            zk = args[2];
+        }
+        reference.setRegistry(new RegistryConfig(zk));
         reference.setInterface(DemoService.class);
         DemoService service = reference.get();
 

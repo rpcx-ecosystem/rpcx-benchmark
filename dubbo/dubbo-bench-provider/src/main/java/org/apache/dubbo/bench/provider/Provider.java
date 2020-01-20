@@ -16,17 +16,21 @@
  */
 package org.apache.dubbo.bench.provider;
 
+import org.apache.dubbo.bench.DemoService;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
-import org.apache.dubbo.bench.DemoService;
 
 public class Provider {
 
     public static void main(String[] args) throws Exception {
         ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
         service.setApplication(new ApplicationConfig("dubbo-demo-api-provider"));
-        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        String zk = "zookeeper://127.0.0.1:2181";
+        if (args.length > 0) {
+            zk = args[0];
+        }
+        service.setRegistry(new RegistryConfig(zk));
         service.setInterface(DemoService.class);
         service.setRef(new DemoServiceImpl());
         service.export();

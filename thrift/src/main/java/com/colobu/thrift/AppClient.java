@@ -43,7 +43,7 @@ public class AppClient {
         final int count = n / threads; //count per client
 
         //warmup
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < threads; i++) {
             client[i].say(msg);
         }
 

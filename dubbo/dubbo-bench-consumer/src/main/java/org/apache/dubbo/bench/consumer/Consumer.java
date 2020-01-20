@@ -32,6 +32,7 @@ public class Consumer {
         }
         reference.setRegistry(new RegistryConfig(zk));
         reference.setInterface(DemoService.class);
+        reference.setTimeout(10000);
         DemoService service = reference.get();
 
         DemoAction demoAction = new DemoAction();

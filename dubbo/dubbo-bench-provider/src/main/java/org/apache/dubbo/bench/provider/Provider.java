@@ -34,7 +34,8 @@ public class Provider {
         service.setInterface(DemoService.class);
         service.setRef(new DemoServiceImpl());
         service.export();
-        System.in.read();
+
+        Thread.sleep(24 * 3600 * 1000);
 
     }
 

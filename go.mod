@@ -9,6 +9,7 @@ require (
 	github.com/golang/protobuf v1.3.2
 	github.com/hprose/hprose-golang v2.0.4+incompatible
 	github.com/mars9/codec v0.0.0-20160208102151-49676af5c6e0
+	github.com/micro/cli v0.2.0
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-plugins/transport/tcp v0.0.0-20200119172437-4fe21aa238fd
 	github.com/micro/micro v1.18.0

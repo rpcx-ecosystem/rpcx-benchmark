@@ -1,38 +1,47 @@
 package main
 
 import (
-	"flag"
+	"os"
 	"reflect"
-	"strings"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/gogo/protobuf/proto"
 	micro "github.com/micro/go-micro"
-	"github.com/micro/go-micro/client"
 	"github.com/micro/go-plugins/transport/tcp"
-	"github.com/micro/micro/server"
 	"github.com/montanaflynn/stats"
 	pb "github.com/rpcx-ecosystem/rpcx-benchmark/go-micro/pb"
 	"github.com/smallnest/rpcx/log"
 	"golang.org/x/net/context"
 )
 
-var concurrency = flag.Int("c", 1, "concurrency")
-var total = flag.Int("n", 1, "total requests for all clients")
-var host = flag.String("s", "127.0.0.1:8972", "server ip and port")
+var concurrency int
+var total int
+var host string
 
 func main() {
-	flag.Parse()
-	n := *concurrency
-	m := *total / n
+	host, _ = os.LookupEnv("HOST")
+	if host == "" {
+		host = "127.0.0.1:8972"
+	}
 
-	selected := -1
-	servers := strings.Split(*host, ",")
-	sNum := len(servers)
+	to, _ := os.LookupEnv("TOTAL")
+	if to != "" {
+		total, _ = strconv.Atoi(to)
+	} else {
+		total = 1
+	}
+	conc, _ := os.LookupEnv("CONC")
+	if conc != "" {
+		concurrency, _ = strconv.Atoi(conc)
+	} else {
+		concurrency = 1
+	}
 
-	log.Infof("Servers: %+v\n\n", servers)
+	n := concurrency
+	m := total / n
 
 	log.Infof("concurrency: %d\nrequests per client: %d\n\n", n, m)
 
@@ -54,14 +63,13 @@ func main() {
 	for i := 0; i < n; i++ {
 		dt := make([]int64, 0, m)
 		d = append(d, dt)
-		selected = (selected + 1) % sNum
-
-		go func(i int, selected int) {
+		go func(i int) {
 			service := micro.NewService(micro.Name("hello.client"))
-			service.Init()
-			c := pb.NewHelloService("hello", service.Client(
-				client.Transport(tcp.NewTransport()),
-				server.Address(*host)))
+			service.Init(
+				micro.Transport(tcp.NewTransport()),
+				micro.Address(host),
+			)
+			c := pb.NewHelloService("hello", service.Client())
 
 			//warmup
 			for j := 0; j < 5; j++ {
@@ -83,7 +91,7 @@ func main() {
 				wg.Done()
 			}
 
-		}(i, selected)
+		}(i)
 
 	}
 

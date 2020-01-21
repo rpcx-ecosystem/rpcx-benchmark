@@ -148,7 +148,7 @@ took 55263 ms for 10000000 requests
 #### c=100,n=10000000
 
 ```
-java -cp thrift-1.0-SNAPSHOT.jar com.colobu.thrift.AppClient 10.41.15.226 100 10000000
+java -cp thrift-1.0-SNAPSHOT.jar com.colobu.thrift.AppClient 192.168.1.226 100 10000000
 sent     requests    : 10000000
 received requests    : 10000000
 received requests_OK : 10000000
@@ -163,7 +163,7 @@ min: 0.000000
 #### c=1000,n=10000000
 
 ```
-java -cp thrift-1.0-SNAPSHOT.jar com.colobu.thrift.AppClient 10.41.15.226 1000 10000000
+java -cp thrift-1.0-SNAPSHOT.jar com.colobu.thrift.AppClient 192.168.1.226 1000 10000000
 sent     requests    : 10000000
 received requests    : 10000000
 received requests_OK : 10000000
@@ -229,4 +229,44 @@ info took 55890 ms for 10000000 requests
 2020/01/20 16:55:23  info throughput  (TPS)    : 178922
 2020/01/20 16:55:23  info mean: 5574522 ns, median: 5450258 ns, max: 112631418 ns, min: 86944 ns, p99: 15302910 ns
 2020/01/20 16:55:23  info mean: 5 ms, median: 5 ms, max: 112 ms, min: 0 ms, p99: 15 ms
+```
+
+### go-micro
+
+#### c=100,n=10000000
+
+```sh
+./micro_client
+2020/01/21 16:08:32 gomicro_client.go:43: INFO : 192.168.1.226:8972 1000000 100
+2020/01/21 16:08:32 gomicro_client.go:47: INFO : concurrency: 100
+requests per client: 10000
+
+2020/01/21 16:08:32 gomicro_client.go:52: INFO : message size: 581 bytes
+
+2020/01/21 16:10:30 gomicro_client.go:102: INFO : took 117938 ms for 1000000 requests
+2020/01/21 16:10:31 gomicro_client.go:119: INFO : sent     requests    : 1000000
+2020/01/21 16:10:31 gomicro_client.go:120: INFO : received requests    : 1000000
+2020/01/21 16:10:31 gomicro_client.go:121: INFO : received requests_OK : 0
+2020/01/21 16:10:31 gomicro_client.go:122: INFO : throughput  (TPS)    : 8479
+2020/01/21 16:10:31 gomicro_client.go:123: INFO : mean: 11462696 ns, median: 10945519 ns, max: 1015949740 ns, min: 10513193 ns, p99: 17612504 ns
+2020/01/21 16:10:31 gomicro_client.go:124: INFO : mean: 11 ms, median: 10 ms, max: 1015 ms, min: 10 ms, p99: 17 ms
+```
+
+
+#### c=1000,n=10000000
+
+```go
+2020/01/21 16:11:09 gomicro_client.go:43: INFO : 192.168.1.226:8972 1000000 1000
+2020/01/21 16:11:09 gomicro_client.go:47: INFO : concurrency: 1000
+requests per client: 1000
+
+2020/01/21 16:11:09 gomicro_client.go:52: INFO : message size: 581 bytes
+
+2020/01/21 16:12:01 gomicro_client.go:102: INFO : took 51922 ms for 1000000 requests
+2020/01/21 16:12:01 gomicro_client.go:119: INFO : sent     requests    : 1000000
+2020/01/21 16:12:01 gomicro_client.go:120: INFO : received requests    : 1000000
+2020/01/21 16:12:01 gomicro_client.go:121: INFO : received requests_OK : 0
+2020/01/21 16:12:01 gomicro_client.go:122: INFO : throughput  (TPS)    : 19259
+2020/01/21 16:12:01 gomicro_client.go:123: INFO : mean: 46115145 ns, median: 22666560 ns, max: 3060928934 ns, min: 10578529 ns, p99: 1050307726 ns
+2020/01/21 16:12:01 gomicro_client.go:124: INFO : mean: 46 ms, median: 22 ms, max: 3060 ms, min: 10 ms, p99: 1050 ms
 ```

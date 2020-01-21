@@ -1,20 +1,20 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"os"
 	"runtime"
+	"strconv"
 	"time"
 
 	micro "github.com/micro/go-micro"
-	"github.com/micro/go-plugins/transport/tcp"
 	pb "github.com/rpcx-ecosystem/rpcx-benchmark/go-micro/pb"
 	"golang.org/x/net/context"
 )
 
 var (
-	host  = flag.String("s", "127.0.0.1:8972", "listened ip and port")
-	delay = flag.Duration("delay", 0, "delay to mock business processing")
+	host  string
+	delay int
 )
 
 type Hello struct{}
@@ -24,8 +24,8 @@ func (t *Hello) Say(ctx context.Context, args *pb.BenchmarkMessage, reply *pb.Be
 	var i int32 = 100
 	args.Field1 = &s
 	args.Field2 = &i
-	if *delay > 0 {
-		time.Sleep(*delay)
+	if delay > 0 {
+		time.Sleep(time.Duration(delay))
 	} else {
 		runtime.Gosched()
 	}
@@ -33,16 +33,23 @@ func (t *Hello) Say(ctx context.Context, args *pb.BenchmarkMessage, reply *pb.Be
 }
 
 func main() {
-	flag.Parse()
+	host, _ = os.LookupEnv("HOST")
+	if host == "" {
+		host = "127.0.0.1:8972"
+	}
+
+	d, _ := os.LookupEnv("DELAY")
+	if d != "" {
+		delay, _ = strconv.Atoi(d)
+	}
 
 	// Create a new service. Optionally include some options here.
 	service := micro.NewService(
 		micro.Name("hello"),
-		micro.Transport(tcp.NewTransport()),
 	)
 
 	// Init will parse the command line flags.
-	service.Init(server.Address(*host))
+	service.Init(micro.Address(host))
 
 	// Register handler
 	pb.RegisterHelloHandler(service.Server(), new(Hello))

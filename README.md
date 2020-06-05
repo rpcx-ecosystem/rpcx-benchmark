@@ -1,5 +1,8 @@
 ## Benchmark
 
+> 新测试项目 [rpcxio/rpcx-benchmark](https://github.com/rpcxio/rpcx-benchmark)， 提供了限流和共享rpc client的方式的测试场景。
+
+
 **测试环境**
 * CPU:    Intel(R) Xeon(R) CPU E5-2620 v2 @ 2.10GHz, 24 cores
 * Memory: 16G

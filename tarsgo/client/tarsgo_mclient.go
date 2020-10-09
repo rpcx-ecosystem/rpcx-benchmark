@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/TarsCloud/TarsGo/tars"
+	"github.com/TarsCloud/TarsGo/tars/util/rogger"
 	"github.com/gogo/protobuf/proto"
 	"github.com/montanaflynn/stats"
 	"github.com/rpcx-ecosystem/rpcx-benchmark/tarsgo/pb"
@@ -22,6 +23,8 @@ import (
 
 func main() {
 	flag.Parse()
+
+	rogger.SetLevel(rogger.OFF)
 
 	concurrency, _ := os.LookupEnv("CONC")
 	if concurrency == "" {

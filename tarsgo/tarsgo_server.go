@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/TarsCloud/TarsGo/tars"
+	"github.com/TarsCloud/TarsGo/tars/util/rogger"
 	"github.com/rpcx-ecosystem/rpcx-benchmark/tarsgo/pb"
 )
 
@@ -32,6 +33,8 @@ func (t *HelloImpl) Say(args pb.BenchmarkMessage) (output pb.BenchmarkMessage, e
 
 func main() {
 	flag.Parse()
+
+	rogger.SetLevel(rogger.OFF)
 
 	impl := new(HelloImpl)
 	app := new(pb.Hello)
